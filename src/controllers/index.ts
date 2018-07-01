@@ -1,6 +1,6 @@
 import express from 'express'
 
-import { func } from './handlers'
+import { func } from './userController'
 
 const controllers = express()
 
