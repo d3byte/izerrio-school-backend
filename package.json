@@ -28,7 +28,7 @@
     "run-dev": "nodemon dist/bundle.js",
     "dev": "run-p webpack-dev run-dev",
     "build": "webpack --config webpack.prod.js",
-    "prod": "node dist/bundle",
+    "prod": "node dist/prod",
     "test-vk": "nodemon test/vk"
   },
   "devDependencies": {
