@@ -1,0 +1,1 @@
+export default function tinyreq(options: any, callback: (err: string, body: string) => any): any
