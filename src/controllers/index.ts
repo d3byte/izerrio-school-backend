@@ -1,9 +1,12 @@
 import express from 'express'
+import expressJWT from 'express-jwt'
+import secret from '../secret'
 
-import { func } from './userController'
+import { login, addCourseToUser } from './userController'
 
 const controllers = express()
 
-controllers.get('/', func)
+controllers.get('/', login)
+controllers.get('/add-course', expressJWT({ secret }), addCourseToUser)
 
 export default controllers
