@@ -3,13 +3,12 @@ import * as bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
+import PORT from './port'
 import controllers from './controllers/index'
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27017/izerrio_school', 
     () => console.log('Connected to MongoDB'))
-
-const PORT = 3000
 
 const app = express()
 
