@@ -357,6 +357,13 @@ assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
 
+assured@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/assured/-/assured-1.0.12.tgz#05f1d2ceef1f3498d123a6a1c7c69c91c47f4a87"
+  dependencies:
+    noop6 "^1.0.1"
+    sliced "^1.0.1"
+
 async-each@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
@@ -873,6 +880,12 @@ deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
 
+deffy@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/deffy/-/deffy-2.2.2.tgz#088f40913cb47078653fa6f697c206e03471d523"
+  dependencies:
+    typpy "^2.0.0"
+
 define-properties@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.2.tgz#83a73f2fea569898fb737193c8f873caf6d45c94"
@@ -1249,6 +1262,12 @@ follow-redirects@^1.3.0:
   dependencies:
     debug "^3.1.0"
 
+follow-redirects@^1.4.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.1.tgz#67a8f14f5a1f67f962c2c46469c79eaec0a90291"
+  dependencies:
+    debug "^3.1.0"
+
 for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -1311,6 +1330,12 @@ fsevents@^1.2.2:
 function-bind@^1.0.2, function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
+
+function.name@^1.0.3:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/function.name/-/function.name-1.0.10.tgz#ed00c828d98ff9a80186926fd439bdd7c16d4f0d"
+  dependencies:
+    noop6 "^1.0.1"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -2195,6 +2220,10 @@ node-pre-gyp@^0.10.0:
     semver "^5.3.0"
     tar "^4"
 
+noop6@^1.0.1, noop6@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/noop6/-/noop6-1.0.7.tgz#96767bf2058ba59ca8cb91559347ddc80239fa8e"
+
 nopt@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-4.0.1.tgz#d0d4685afd5415193c8c7505602d0d17cd64474d"
@@ -2852,7 +2881,7 @@ sliced@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/sliced/-/sliced-0.0.5.tgz#5edc044ca4eb6f7816d50ba2fc63e25d8fe4707f"
 
-sliced@1.0.1:
+sliced@1.0.1, sliced@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/sliced/-/sliced-1.0.1.tgz#0b3a662b5d04c3177b1926bea82b03f837a2ef41"
 
@@ -3090,6 +3119,15 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+tinyreq@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/tinyreq/-/tinyreq-3.4.0.tgz#8d9c803379bb1a0c2d1d61db24686f48d684d6f4"
+  dependencies:
+    assured "^1.0.12"
+    follow-redirects "^1.4.1"
+    noop6 "^1.0.7"
+    ul "^5.2.13"
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -3155,6 +3193,12 @@ typescript@^2.9.2:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
+typpy@^2.0.0, typpy@^2.3.4:
+  version "2.3.10"
+  resolved "https://registry.yarnpkg.com/typpy/-/typpy-2.3.10.tgz#63a39e4171cbbb4cdefb590009228a3de9a22b2f"
+  dependencies:
+    function.name "^1.0.3"
+
 uglify-es@^3.3.4:
   version "3.3.9"
   resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.9.tgz#0c1c4f0700bed8dbc124cdb304d2592ca203e677"
@@ -3174,6 +3218,13 @@ uglifyjs-webpack-plugin@^1.2.4, uglifyjs-webpack-plugin@^1.2.7:
     uglify-es "^3.3.4"
     webpack-sources "^1.1.0"
     worker-farm "^1.5.2"
+
+ul@^5.2.13:
+  version "5.2.13"
+  resolved "https://registry.yarnpkg.com/ul/-/ul-5.2.13.tgz#9ff0504ea35ca1f74c0bf59e6480def009bad7b5"
+  dependencies:
+    deffy "^2.2.2"
+    typpy "^2.3.4"
 
 union-value@^1.0.0:
   version "1.0.0"

@@ -15,6 +15,7 @@
     "jsonwebtoken": "^8.3.0",
     "mongod": "^2.0.0",
     "mongoose": "^5.1.7",
+    "tinyreq": "^3.4.0",
     "ts-loader": "^4.4.2",
     "typescript": "^2.9.2",
     "uglifyjs-webpack-plugin": "^1.2.7",
@@ -27,7 +28,8 @@
     "run-dev": "nodemon dist/bundle.js",
     "dev": "run-p webpack-dev run-dev",
     "build": "webpack --config webpack.prod.js",
-    "prod": "node dist/bundle"
+    "prod": "node dist/bundle",
+    "test-vk": "nodemon test/vk"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.3"
