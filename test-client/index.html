@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <a href="" id="link">Авторизируйся</a>
+    <div class="hide">
+        <h1 id="name"></h1>
+        <img src="" id="avatar">
+    </div>
+    <script>
+        window.getCookie = function(name) {
+            var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) return match[2];
+        }
+        fetch('http://localhost:3123/get-vk-url').then(res => res.json()).then(res => {
+            const { link } = res
+            console.log(link)
+            document.getElementById('link').setAttribute('href', link)
+        })
+        const token = window.getCookie('token')
+        if (token) {
+            fetch('http://localhost:3123/get-user', { headers: { 'Authorization': `Bearer ${token}` } }).then(res => res.json()).then(res => {
+                console.log(res)
+                const profile = document.createElement('div'),
+                    name = document.createElement('h1'),
+                    img = document.createElement('img')
+                name.innerText = res.user.firstName + ' ' + res.user.lastName
+                img.setAttribute('src', res.user.avatar)
+                profile.appendChild(name)
+                profile.appendChild(img)
+                document.body.appendChild(profile)
+            })
+        }
+    </script>
+</body>
+</html>
