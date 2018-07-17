@@ -20,7 +20,10 @@ export const login = async (req: any, res: any) => {
         request(`https://api.vk.com/method/users.get?uids=${fields.uids}&fields=${fields.fields}&access_token=${fields.access_token}&version=${info.version}`, async (err, body) => {
             const { response } = JSON.parse(body)
             const uid = response[0].uid
-            const user = await db.User.findOne({ id: uid })
+            const user = await db.User.findOne({ id: uid }).populate({
+                path: 'subjects',
+                populate: 'teacher course',
+            })
             let token: string
             if (!user) {
                 const data = new db.User({ 
@@ -34,7 +37,7 @@ export const login = async (req: any, res: any) => {
                 res.cookie('token', token)
                 res.redirect('http://localhost:5500/test/index.html')
             }
-            token = jwt.sign({ id: user.id }, secret)
+            token = jwt.sign({ id: user.id  }, secret)
             res.cookie('token', token)
             res.redirect('http://localhost:5500/test/index.html')
         })
@@ -43,10 +46,26 @@ export const login = async (req: any, res: any) => {
 
 export const getUser = async (req: any, res: any) => {
     const token = req.user
-    const user = await db.User.findOne({ id: token.id })
+    const user = await db.User.findOne({ id: token.id }).populate({
+        path: 'subjects',
+        populate: 'teacher course',
+    })
     return res.json({ user })
 }
 
-export const addCourseToUser = async (req: any, res: any) => {
-    const user = req.user
+export const addSubjectToUser = async (req: any, res: any) => {
+    const id = req.user
+    const updatedUser = await db.User.update(
+        { id },
+        { 
+            $push: { 
+                subjects: {
+                    teacher: req.body.teacherId,
+                    course: req.body.subjectId,
+                }
+            }
+        },
+        { new: true },
+    ).populate('subjects')
+    return res.json({ user: updatedUser })
 }
