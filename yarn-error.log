@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/10.3.0/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js add @types/tinyreq
+  /usr/local/Cellar/node/10.3.0/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js add @types/uid
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2ftinyreq: Not found
+  Error: https://registry.yarnpkg.com/@types%2fuid: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:65656:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:134675:22)
       at Request.emit (events.js:182:13)
@@ -44,10 +44,12 @@ npm manifest:
       "jsonwebtoken": "^8.3.0",
       "mongod": "^2.0.0",
       "mongoose": "^5.1.7",
+      "mongoose-bcrypt": "^1.5.1",
       "tinyreq": "^3.4.0",
       "ts-loader": "^4.4.2",
       "typescript": "^2.9.2",
       "uglifyjs-webpack-plugin": "^1.2.7",
+      "uid": "^0.0.2",
       "webpack": "^4.14.0",
       "webpack-cli": "^3.0.8",
       "webpack-merge": "^4.1.3"
@@ -57,7 +59,7 @@ npm manifest:
       "run-dev": "nodemon dist/bundle.js",
       "dev": "run-p webpack-dev run-dev",
       "build": "webpack --config webpack.prod.js",
-      "prod": "node dist/bundle",
+      "prod": "node dist/prod",
       "test-vk": "nodemon test/vk"
     },
     "devDependencies": {
@@ -479,6 +481,10 @@ Lockfile:
       isobject "^3.0.1"
       mixin-deep "^1.2.0"
       pascalcase "^0.1.1"
+  
+  bcrypt-nodejs@0.0.3:
+    version "0.0.3"
+    resolved "https://registry.yarnpkg.com/bcrypt-nodejs/-/bcrypt-nodejs-0.0.3.tgz#c60917f26dc235661566c681061c303c2b28842b"
   
   big.js@^3.1.3:
     version "3.2.0"
@@ -2146,15 +2152,55 @@ Lockfile:
       bson "~1.0.4"
       require_optional "^1.0.1"
   
+  mongodb-core@3.1.0:
+    version "3.1.0"
+    resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-3.1.0.tgz#af91f36fd560ed785f4e61e694432df4d3698aad"
+    dependencies:
+      bson "~1.0.4"
+      require_optional "^1.0.1"
+    optionalDependencies:
+      saslprep "^1.0.0"
+  
   mongodb@3.0.10:
     version "3.0.10"
     resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.10.tgz#f948cb9595adcbfcad7444f6b24a040b653b23e8"
     dependencies:
       mongodb-core "3.0.9"
   
+  mongodb@3.1.1:
+    version "3.1.1"
+    resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.1.tgz#c018c4b277614e8b1e08426d5bcbe1a7e5cdbd74"
+    dependencies:
+      mongodb-core "3.1.0"
+  
+  mongoose-bcrypt@^1.5.1:
+    version "1.5.1"
+    resolved "https://registry.yarnpkg.com/mongoose-bcrypt/-/mongoose-bcrypt-1.5.1.tgz#28288902622fb0d5a4c7001af8af234f05727401"
+    dependencies:
+      bcrypt-nodejs "0.0.3"
+      mongoose "3.8.* || >=4"
+      semver ">=1.1.0"
+  
   mongoose-legacy-pluralize@1.0.2:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
+  
+  "mongoose@3.8.* || >=4":
+    version "5.2.3"
+    resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.2.3.tgz#667b92c394a6aa81c3c9f2f45f3a8f28cea28e9c"
+    dependencies:
+      async "2.6.1"
+      bson "~1.0.5"
+      kareem "2.2.1"
+      lodash.get "4.4.2"
+      mongodb "3.1.1"
+      mongodb-core "3.1.0"
+      mongoose-legacy-pluralize "1.0.2"
+      mpath "0.4.1"
+      mquery "3.0.0"
+      ms "2.0.0"
+      regexp-clone "0.0.1"
+      sliced "1.0.1"
   
   mongoose@^5.1.7:
     version "5.1.7"
@@ -2834,6 +2880,10 @@ Lockfile:
     version "2.1.2"
     resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   
+  saslprep@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/saslprep/-/saslprep-1.0.0.tgz#2c4968a0bfbf249530cd597bc62870ccd4b41a24"
+  
   sax@^1.2.4:
     version "1.2.4"
     resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
@@ -2845,7 +2895,7 @@ Lockfile:
       ajv "^6.1.0"
       ajv-keywords "^3.1.0"
   
-  "semver@2 || 3 || 4 || 5", semver@^5.0.1, semver@^5.1.0, semver@^5.3.0, semver@^5.5.0:
+  "semver@2 || 3 || 4 || 5", semver@>=1.1.0, semver@^5.0.1, semver@^5.1.0, semver@^5.3.0, semver@^5.5.0:
     version "5.5.0"
     resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
   
@@ -3289,6 +3339,10 @@ Lockfile:
       uglify-es "^3.3.4"
       webpack-sources "^1.1.0"
       worker-farm "^1.5.2"
+  
+  uid@^0.0.2:
+    version "0.0.2"
+    resolved "https://registry.yarnpkg.com/uid/-/uid-0.0.2.tgz#5e4a5d4b78138b4f70f89fd3c76fc59aa9d2f103"
   
   ul@^5.2.13:
     version "5.2.13"
