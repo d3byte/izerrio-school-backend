@@ -4,7 +4,7 @@ import chai from 'chai'
 import chaiHTTP from 'chai-http'
 import db from '../src/models/index'
 import server from '../src/index'
-import token from './getUserToken'
+import token from './utils/getUserToken'
 
 const { Subject, Teacher } = db
 const expect = chai.expect
