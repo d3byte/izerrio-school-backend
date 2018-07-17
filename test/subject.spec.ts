@@ -18,25 +18,23 @@ describe('Model -> Subject', () => {
         })
     })
 
-    describe('API по Subject', () => {
+    const subjectToCreate = {
+        name: 'Математика',
+        price: 1500,
+    }
 
-        const subjectToCreate = {
-            name: 'Математика',
-            price: 1500,
-        }
+    const subjectWithError = {
+        name: 'Математика',
+    }
 
-        const subjectWithError = {
-            name: 'Математика',
-        }
+    const teacherToCreate = {
+        firstName: 'Егор',
+        lastName: 'Летуновский',
+        username: 'egor',
+        password: 'letun',
+    }
 
-        const teacherToCreate = {
-            firstName: 'Егор',
-            lastName: 'Летуновский',
-            username: 'egor',
-            password: 'letun',
-        }
-
-        console.log('TOKEN ', token)
+    describe('Создание/удаления предмета', () => {
 
         it('Должен создавать предмет', () => {
             chai.request(server)
@@ -48,7 +46,7 @@ describe('Model -> Subject', () => {
                 })
         })
 
-        it('Не должен создавать предмет', () => {
+        it('Не должен создавать предмет при несоблюдении модели', () => {
             chai.request(server)
                 .post('/create-subject')
                 .set('Authorization', `Bearer ${token}`)
@@ -58,6 +56,22 @@ describe('Model -> Subject', () => {
                     expect(res.body.error).not.to.have.length(0)
                 })
         })
+
+        it('Должен удалять предмет', async () => {
+            const subject = new Subject(subjectToCreate)
+            subject.save().then(createdSubject => {
+                chai.request(server)
+                    .del('/remove-subject')
+                    .set('Authorization', `Bearer ${token}`)
+                    .send({ subjectId: createdSubject._id })
+                    .end((err, res) => {
+                        expect(res.body.success).to.be.true
+                    })
+            })
+        })
+    })
+
+    describe('Добавление/удаления учителя', () => {
 
         it('Должен добавлять учителя в предмет', async () => {
             const dataSubject = new Subject(subjectToCreate)
@@ -103,19 +117,6 @@ describe('Model -> Subject', () => {
                             expect(res.body.subject.teachers).to.have.length(0)
                         })
                 })
-        })
-
-        it('Должен удалять предмет', async () => {
-            const subject = new Subject(subjectToCreate)
-            subject.save().then(createdSubject => {
-                chai.request(server)
-                    .del('/remove-subject')
-                    .set('Authorization', `Bearer ${token}`)
-                    .send({ subjectId: createdSubject._id })
-                    .end((err, res) => {
-                        expect(res.body.success).to.be.true
-                    })
-            })
         })
     })
 
