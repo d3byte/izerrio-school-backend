@@ -81,7 +81,6 @@ describe('Model -> Application', () => {
             const subject = await dataSubject.save()
             const dataTeacher = new Teacher({ ...teacherToCreate, subject: subject._id })
             const teacher = await dataTeacher.save()
-            const teacherToken = jwt.sign({ id: teacher._id }, secret)
             const application = new Application({ ...applicationToCreate, teacher: teacher._id })
             application.save().then(() => {
                 chai.request(server)
@@ -103,7 +102,6 @@ describe('Model -> Application', () => {
             const subject = await dataSubject.save()
             const dataTeacher = new Teacher({ ...teacherToCreate, subject: subject._id })
             const teacher = await dataTeacher.save()
-            const teacherToken = jwt.sign({ id: teacher._id }, secret)
             const application = new Application({ ...applicationToCreate, teacher: teacher._id })
             application.save().then(() => {
                 chai.request(server)
