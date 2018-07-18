@@ -13,10 +13,10 @@ mongoose.connect(URL, () => console.log(`Connected to MongoDB: ${URL}`))
 
 const app = express()
 
-if(process.env.NODE_ENV !== 'test') {
-    //morgan для вывода логов в консоль
-    app.use(morgan('combined')); //'combined' выводит логи в стиле apache
-}
+// if(process.env.NODE_ENV !== 'test') {
+//     //morgan для вывода логов в консоль
+//     app.use(morgan('combined')); //'combined' выводит логи в стиле apache
+// }
 
 
 app.use(cors())
