@@ -112,6 +112,7 @@ describe('Model -> Application', () => {
                     .send({ applicationId: application._id })
                     .end((err, res) => {
                         expect(res.body.success).to.be.true
+                        expect(res.body.application).property('isDone').to.be.true
                     })
             })
         })
