@@ -1,5 +1,4 @@
 process.env.NODE_ENV = 'test'
-import mongoose from 'mongoose'
 import chai from 'chai'
 import chaiHTTP from 'chai-http'
 import db from '../src/models/index'
@@ -14,7 +13,9 @@ chai.use(chaiHTTP)
 describe('Model -> Subject', () => {
     before(done => {
         Subject.remove({}, err => {
-            done()
+            Teacher.remove({}, err => {
+                done()
+            })
         })
     })
 
@@ -28,13 +29,13 @@ describe('Model -> Subject', () => {
     }
 
     const teacherToCreate = {
-        firstName: 'Егор',
+        firstName: 'Жопа',
         lastName: 'Летуновский',
         username: 'egor',
         password: 'letun',
     }
 
-    describe('Создание/удаления предмета', () => {
+    describe('Создание/удаление предмета', () => {
 
         it('Должен создавать предмет', () => {
             chai.request(server)
@@ -71,7 +72,7 @@ describe('Model -> Subject', () => {
         })
     })
 
-    describe('Добавление/удаления учителя', () => {
+    describe('Добавление/удаление учителя', () => {
 
         it('Должен добавлять учителя в предмет', async () => {
             const dataSubject = new Subject(subjectToCreate)
