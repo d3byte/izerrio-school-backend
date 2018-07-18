@@ -31,7 +31,7 @@ export const setApplicationAsDone = async (req: any, res: any) => {
             { isDone: true },
             { new: true },
         )
-        return res.json({ success: updatedApplication ? true : false })
+        return res.json({ success: updatedApplication ? true : false, application: updatedApplication })
     }
     return res.json({ error: 'Пользователь не обладает правами администратора' })
 }
