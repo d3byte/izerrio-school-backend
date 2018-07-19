@@ -2,7 +2,7 @@ import express from 'express'
 import expressJWT from 'express-jwt'
 import secret from '../secret'
 
-import {  login, addSubjectToUser, getUser } from './userController'
+import {  login, addSubjectToUser, getUser, turnHelperIntoUser, turnUserIntoHelper } from './userController'
 import { createTeacher, authorizeTeacher, removeTeacher } from './teacherController'
 import { createSubject, addTeacherToSubject, removeTeacherFromSubject, removeSubject } from './subjectController'
 import { createApplication, setApplicationAsDone, removeApplication } from './applicationController'
@@ -17,6 +17,8 @@ controllers.get('/get-vk-url', getLink)
 controllers.get('/vk-auth', login)
 controllers.get('/get-user', expressJWT({ secret }), getUser)
 controllers.get('/add-course', expressJWT({ secret }), addSubjectToUser)
+controllers.post('/user-to-helper', expressJWT({ secret }), turnUserIntoHelper)
+controllers.post('/helper-to-user', expressJWT({ secret }), turnHelperIntoUser)
 
 // Teacher
 controllers.post('/create-teacher', expressJWT({ secret }), createTeacher)
