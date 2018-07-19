@@ -54,7 +54,7 @@ export const getUser = async (req: any, res: any) => {
 }
 
 export const addSubjectToUser = async (req: any, res: any) => {
-    const id = req.user
+    const id = req.user.id
     const updatedUser = await db.User.update(
         { id },
         { 
@@ -68,4 +68,40 @@ export const addSubjectToUser = async (req: any, res: any) => {
         { new: true },
     ).populate('subjects')
     return res.json({ user: updatedUser })
+}
+
+export const turnUserIntoHelper = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id })
+    if (user.isAdmin) {
+        try {
+            const updatedUser = await db.User.findByIdAndUpdate(
+                req.body.userId,
+                { isHelper: true, teacher: req.body.teacherId },
+                { new: true },
+            )
+            return res.json({ helper: updatedUser })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    }
+    return res.json({ error: 'Пользователь не обладает правами администратора' })
+}
+
+export const turnHelperIntoUser = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id })
+    if (user.isAdmin) {
+        try {
+            const updatedUser = await db.User.findByIdAndUpdate(
+                req.body.userId,
+                { isHelper: false, teacher: null },
+                { new: true },
+            )
+            return res.json({ user: updatedUser })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    }
+    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }
