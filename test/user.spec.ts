@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'test'
 import chai from 'chai'
 import chaiHTTP from 'chai-http'
+import uid from 'uid'
 import db from '../src/models/index'
 import server from '../src/index'
 import token from './utils/getUserToken'
@@ -25,9 +26,8 @@ describe('Model -> User', () => {
     }
 
     const userToCreate = {
-        id: '1231232',
-        firstName: 'Тест',
-        lastName: 'Пользователь ',
+        firstName: 'Крутой',
+        lastName: 'Чел',
         avatar: 'https://pp.userapi.com/c830400/v830400931/122aee/h_CEdusVqjo.jpg?ava=1',
     }
 
@@ -40,7 +40,7 @@ describe('Model -> User', () => {
                 ...teacherToCreate,
                 subject: subject._id,
             })
-            const dataUser = new User(userToCreate)
+            const dataUser = new User({ ...userToCreate, id: uid(20) })
             const user = await dataUser.save()
             if (user) {
                 teacher.save().then(() => {
@@ -67,6 +67,7 @@ describe('Model -> User', () => {
                 ...userToCreate,
                 isHelper: true,
                 teacher: teacher._id,
+                id: uid(20)
             })
             const user = await dataUser.save()
             chai.request(server)
