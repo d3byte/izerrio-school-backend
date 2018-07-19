@@ -7,17 +7,21 @@ import cors from 'cors'
 import PORT from './port'
 import URL from './mongoUrl'
 import controllers from './controllers/index'
+import { removeInvalidUserSubscriptions } from '../cron'
 
 mongoose.Promise = global.Promise
-mongoose.connect(URL, () => console.log(`Connected to MongoDB: ${URL}`))
+mongoose.connect(URL, () => {
+    console.log(`Connected to MongoDB: ${URL}`)
+    // CRON
+    // process.env.NODE_ENV !== 'test' && removeInvalidUserSubscriptions.start()
+})
 
 const app = express()
 
-// if(process.env.NODE_ENV !== 'test') {
-//     //morgan для вывода логов в консоль
-//     app.use(morgan('combined')); //'combined' выводит логи в стиле apache
-// }
-
+if(process.env.NODE_ENV !== 'test') {
+    //morgan для вывода логов в консоль
+    app.use(morgan('combined')); //'combined' выводит логи в стиле apache
+}
 
 app.use(cors())
 app.use(bodyParser.json())
