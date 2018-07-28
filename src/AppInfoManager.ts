@@ -5,7 +5,7 @@ export default class AppInfoManager {
         app: 6621302,
         protectedKey: 'BuOkbxEly6ywp1t0rAhF',
         version: '5.80',
-        redirect_uri: `http://localhost:${PORT}/vk-auth`,
+        redirect_uri: process.env.NODE_ENV === 'production' ? 'http://176.57.214.29:80/vk-auth' : `http://localhost:${PORT}/vk-auth`,
         response_type: 'code',
         code: ''
     }
