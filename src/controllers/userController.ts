@@ -10,6 +10,7 @@ let info = infoManager.getInfo()
 export const login = async (req: any, res: any) => {
     const { code } = req.query
     info = infoManager.setField('code', code).getInfo()
+    const redirectUri = process.env.NODE_ENV === 'production' ? 'http://school.izerrio.pro/auth' : 'http://localhost:8080/auth'
     request(`https://oauth.vk.com/access_token?client_id=${info.app}&client_secret=${info.protectedKey}&code=${info.code}&redirect_uri=${info.redirect_uri}`, async (err, body) => {
         let jsonBody = JSON.parse(body)
         const fields = {
@@ -35,11 +36,11 @@ export const login = async (req: any, res: any) => {
                 const createdUser = await data.save()
                 token = jwt.sign({ id: createdUser.id }, secret)
                 res.cookie('token', token)
-                res.redirect('http://localhost:5500/test/index.html')
+                res.redirect(redirectUri)
             }
             token = jwt.sign({ id: user.id  }, secret)
             res.cookie('token', token)
-            res.redirect('http://localhost:8080/auth')
+            res.redirect(redirectUri)
         })
     })
 }
