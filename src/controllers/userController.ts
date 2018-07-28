@@ -39,7 +39,7 @@ export const login = async (req: any, res: any) => {
             }
             token = jwt.sign({ id: user.id  }, secret)
             res.cookie('token', token)
-            res.redirect('http://localhost:5500/test/index.html')
+            res.redirect('http://localhost:8080/auth')
         })
     })
 }
@@ -51,6 +51,36 @@ export const getUser = async (req: any, res: any) => {
         populate: 'teacher course',
     })
     return res.json({ user })
+}
+
+export const getUsers = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id: id })
+    if (user.isAdmin) {
+        try {
+            const users = await db.User.find({ isHelper: false, isAdmin: false })
+            return res.json({ users })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
+    }
+}
+
+export const getHelpers = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id: id })
+    if (user.isAdmin) {
+        try {
+            const helpers = await db.User.find({ isHelper: true }).populate('teacher')
+            return res.json({ helpers })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
+    }
 }
 
 export const addSubjectToUser = async (req: any, res: any) => {
@@ -77,15 +107,16 @@ export const turnUserIntoHelper = async (req: any, res: any) => {
         try {
             const updatedUser = await db.User.findByIdAndUpdate(
                 req.body.userId,
-                { isHelper: true, teacher: req.body.teacherId },
+                { $set: { isHelper: true, teacher: req.body.teacherId } },
                 { new: true },
             )
             return res.json({ helper: updatedUser })
         } catch (error) {
             return res.json({ error: error.message })
         }
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }
 
 export const turnHelperIntoUser = async (req: any, res: any) => {
@@ -95,13 +126,15 @@ export const turnHelperIntoUser = async (req: any, res: any) => {
         try {
             const updatedUser = await db.User.findByIdAndUpdate(
                 req.body.userId,
-                { isHelper: false, teacher: null },
+                { $set: { isHelper: false, teacher: null } },
                 { new: true },
             )
+            console.log(updatedUser)
             return res.json({ user: updatedUser })
         } catch (error) {
             return res.json({ error: error.message })
         }
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }

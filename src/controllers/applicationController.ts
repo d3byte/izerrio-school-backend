@@ -32,8 +32,9 @@ export const setApplicationAsDone = async (req: any, res: any) => {
             { new: true },
         )
         return res.json({ success: updatedApplication ? true : false, application: updatedApplication })
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }
 
 export const removeApplication = async (req: any, res: any) => {
@@ -42,6 +43,7 @@ export const removeApplication = async (req: any, res: any) => {
     if (user.isAdmin) {
         const removedApplication = await db.Application.findByIdAndRemove(req.body.applicationId)
         return res.json({ success: removedApplication ? true : false })
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }

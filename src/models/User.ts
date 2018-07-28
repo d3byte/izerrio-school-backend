@@ -10,7 +10,7 @@ const addRealMonth = (d: any) => {
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-    id: { type: String, required: true, index: { unique: true } },
+    id: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     avatar: { type: String, required: true },
@@ -20,7 +20,7 @@ const userSchema = new Schema({
         validUntil: { type: Date, default: addRealMonth(moment()) }
     }],
     teacher: { type: Schema.Types.ObjectId, ref: 'Teacher', default: null },
-    students: [{ type: Schema.Types.ObjectId, ref: 'User', default: null }],
+    students: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
     isAdmin: { type: Boolean, default: false },
     isHelper: { type: Boolean, default: false },
 })

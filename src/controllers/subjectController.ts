@@ -10,15 +10,16 @@ export const createSubject = async (req: any, res: any) => {
             const data = new db.Subject({
                 name: req.body.name,
                 price: req.body.price,
-                teachers: req.body.teachers || null
+                teachers: req.body.teachers || []
             })
             const createdSubject = await data.save()
             return res.json({ subject: createdSubject })
         } catch(error) {
             return res.json({ error: error.message })
         }
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }
 
 export const addTeacherToSubject = async (req: any, res: any) => {
@@ -33,8 +34,9 @@ export const addTeacherToSubject = async (req: any, res: any) => {
         } catch (error) {
             return res.json({ error: error.message })
         }
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }
 
 export const removeTeacherFromSubject = async (req: any, res: any) => {
@@ -47,8 +49,24 @@ export const removeTeacherFromSubject = async (req: any, res: any) => {
             { new: true }
         )
         return res.json({ subject })
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
+}
+
+export const getSubjects = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id: id })
+    if (user.isAdmin) {
+        try {
+            const subjects = await db.Subject.find()
+            return res.json({ subjects })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
+    }
 }
 
 export const removeSubject = async (req: any, res: any) => {
@@ -57,6 +75,7 @@ export const removeSubject = async (req: any, res: any) => {
     if (user.isAdmin) {
         const removedSubject = await db.Subject.findByIdAndRemove(req.body.subjectId)
         return res.json({ success: removedSubject ? true : false })
+    } else {
+        return res.json({ error: 'Пользователь не обладает правами администратора' })
     }
-    return res.json({ error: 'Пользователь не обладает правами администратора' })
 }
