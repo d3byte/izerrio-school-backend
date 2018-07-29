@@ -35,10 +35,10 @@ export const login = async (req: any, res: any) => {
                 })
                 const createdUser = await data.save()
                 token = jwt.sign({ id: createdUser.id }, secret)
-                res.send({ token }).redirect(redirectUri)
+                res.redirect(`${redirectUri}?token=${token}`)
             }
             token = jwt.sign({ id: user.id  }, secret)
-            res.send({ token }).redirect(redirectUri)
+            res.redirect(`${redirectUri}?token=${token}`)
         })
     })
 }
