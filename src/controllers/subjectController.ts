@@ -47,7 +47,7 @@ export const removeTeacherFromSubject = async (req: any, res: any) => {
             req.body.id, 
             { $pullAll: { teachers: [req.body.teacherId] } },
             { new: true }
-        )
+        ).populate('teachers')
         return res.json({ subject })
     } else {
         return res.json({ error: 'Пользователь не обладает правами администратора' })
@@ -57,7 +57,7 @@ export const removeTeacherFromSubject = async (req: any, res: any) => {
 export const getSubjects = async (req: any, res: any) => {
     const id = req.user.id
     const user: any = await db.User.findOne({ id: id })
-    if (user.isAdmin) {
+    if (user) {
         try {
             const subjects = await db.Subject.find()
             return res.json({ subjects })
@@ -65,7 +65,52 @@ export const getSubjects = async (req: any, res: any) => {
             return res.json({ error: error.message })
         }
     } else {
-        return res.json({ error: 'Пользователь не обладает правами администратора' })
+        return res.json({ error: 'Пользователь не авторизован' })
+    }
+}
+
+export const getSubject = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id })
+    if (user) {
+        try {
+            const subject = await db.Subject.findById(req.body.subjectId).populate('teachers')
+            return res.json({ subject })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    } else {
+        return res.json({ error: 'Пользователь не авторизован' })
+    }
+}
+
+export const addVideoToSubject = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id: id })
+    if (user.isTeacher || user.isAdmin) {
+        try {
+            const subject = await db.Subject.findByIdAndUpdate(req.body.subjectId, { $push: { videos: req.body.video } }, { new: true })
+            return res.json({ subject })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    } else {
+        return res.json({ error: 'Пользователь не авторизован' })
+    }
+}
+
+export const removeVideoFromSubject = async (req: any, res: any) => {
+    const id = req.user.id
+    const user: any = await db.User.findOne({ id: id })
+    if (user.isTeacher || user.isAdmin) {
+        try {
+            const subject = await db.Subject.findByIdAndUpdate(req.body.subjectId, { $pullAll: { videos: [req.body.video] } }, { new: true })
+            return res.json({ subject })
+        } catch (error) {
+            return res.json({ error: error.message })
+        }
+    } else {
+        return res.json({ error: 'Пользователь не авторизован' })
     }
 }
 

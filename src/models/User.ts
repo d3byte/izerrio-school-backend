@@ -16,13 +16,17 @@ const userSchema = new Schema({
     avatar: { type: String, required: true },
     subjects: [{
         teacher: { type: Schema.Types.ObjectId, ref: 'Teacher', required: true },
+        helper: { type: Schema.Types.ObjectId, ref: 'User', default: null },
         subject: { type: Schema.Types.ObjectId, ref: 'Subject', required: true },
         validUntil: { type: Date, default: addRealMonth(moment()) }
     }],
+    applications: [{ type: Schema.Types.ObjectId, ref: 'Application', default: [] }],
     teacher: { type: Schema.Types.ObjectId, ref: 'Teacher', default: null },
+    subject: { type: Schema.Types.ObjectId, ref: 'Subject', default: null },
     students: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
     isAdmin: { type: Boolean, default: false },
     isHelper: { type: Boolean, default: false },
+    balance: { type: Number, default: 0 },
 })
 
 const User = mongoose.model('User', userSchema)
