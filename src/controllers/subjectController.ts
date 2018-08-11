@@ -4,7 +4,7 @@ import mongoose, { mongo } from 'mongoose'
 export const createSubject = async (req: any, res: any) => {
     const id = req.user.id
     const user: any = await db.User.findOne({ id })
-    // console.log(user)
+
     if ((user || {}).isAdmin) {
         try {
             const data = new db.Subject({
@@ -86,10 +86,11 @@ export const getSubject = async (req: any, res: any) => {
 
 export const addVideoToSubject = async (req: any, res: any) => {
     const id = req.user.id
-    const user: any = await db.User.findOne({ id: id })
+    const user: any = await db.User.findOne({ id }) || await db.Teacher.findById(id)
     if (user.isTeacher || user.isAdmin) {
         try {
             const subject = await db.Subject.findByIdAndUpdate(req.body.subjectId, { $push: { videos: req.body.video } }, { new: true })
+            console.log(subject)
             return res.json({ subject })
         } catch (error) {
             return res.json({ error: error.message })
@@ -101,7 +102,7 @@ export const addVideoToSubject = async (req: any, res: any) => {
 
 export const removeVideoFromSubject = async (req: any, res: any) => {
     const id = req.user.id
-    const user: any = await db.User.findOne({ id: id })
+    const user: any = await db.User.findOne({ id }) || await db.Teacher.findById(id)
     if (user.isTeacher || user.isAdmin) {
         try {
             const subject = await db.Subject.findByIdAndUpdate(req.body.subjectId, { $pullAll: { videos: [req.body.video] } }, { new: true })
@@ -116,8 +117,8 @@ export const removeVideoFromSubject = async (req: any, res: any) => {
 
 export const removeSubject = async (req: any, res: any) => {
     const id = req.user.id
-    const user: any = await db.User.findOne({ id })
-    if (user.isAdmin) {
+    const user: any = await db.User.findOne({ id }) || await db.Teacher.findById(id)
+    if (user.isTeacher || user.isAdmin) {
         const removedSubject = await db.Subject.findByIdAndRemove(req.body.subjectId)
         return res.json({ success: removedSubject ? true : false })
     } else {

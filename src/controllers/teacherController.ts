@@ -1,3 +1,4 @@
+import nodemailer from 'nodemailer'
 import uid from 'uid'
 import jwt from 'jsonwebtoken'
 import db from '../models/index'
@@ -13,15 +14,44 @@ export const createTeacher = async (req: any, res: any) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 subject: req.body.subjectId,
+                email: req.body.email,
                 username: `${req.body.firstName}${uid(7)}`,
                 password,
             })
-            const createdTeacher = await data.save()
+            const createdTeacher: any = await data.save()
             const subject = await db.Subject.findByIdAndUpdate(req.body.subjectId, {
                 $push: { teachers: createdTeacher._id }
-            })
+            }, { new: true })
+            
+            let transporter = nodemailer.createTransport({
+                host: 'smtp.mail.ru',
+                port: 465,
+                secure: true, 
+                auth: {
+                    user: 'info@izerrio.pro ',
+                    pass: 'H-SrP85tdSqi'
+                }
+            });
+        
+            // setup email data with unicode symbols
+            let mailOptions = {
+                from: `iZerrio School <info@izerrio.pro>`, // sender address
+                to: req.body.email, // list of receivers
+                subject: 'Регистрация на iZerrio School', // Subject line
+                text: `Вы были зарегистрированы на school.izerrio.pro. Ваш логин: ${createdTeacher.username}, пароль: ${createdTeacher.password}`, // plain text body
+                html: `Вы были зарегистрированы на school.izerrio.pro. <br> Ваш логин: ${createdTeacher.username}, пароль: ${createdTeacher.password}` // html body
+            };
+        
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log('Message sent: %s', info.messageId);
+        
+            });
             if (createdTeacher && subject) {
-                return res.json({ teacher: createdTeacher, password })
+                return res.json({ teacher: { ...createdTeacher, subject }, password })
             }
         } catch (error) {
             return res.json({ error: error.message })
