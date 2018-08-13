@@ -154,6 +154,7 @@ var retinaLogo = function(el) {
 		<style>
 
 </style>
+<a href="//www.free-kassa.ru/"><img src="//www.free-kassa.ru/img/fk_btn/4.png"></a>
 <div class="social-icons-wrapper">
 			<div class="social-icon-box">
 			<a href="https://vk.com/pavel_vozmischev" target="_blank" rel="noopener noreferrer"><i class="icon-vkontakte-rounded"></i></a>
@@ -176,7 +177,6 @@ var retinaLogo = function(el) {
             <div class="scroll-top-btn" style="display: none;"><span class="raphael-top" id="raphael-top"><svg height="22" version="1.1" width="22" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;"><defs></defs><path fill="#000000" stroke="none" d="M11,0L22,11L0,11L11,0ZM0,13L22,13L22,15L0,15ZM0,17L22,17L22,19L0,19Z" style=""></path></svg></span></div>
         </div>
     </div>
-    <a href="//www.free-kassa.ru/"><img src="//www.free-kassa.ru/img/fk_btn/4.png"></a>
     `)
 }
 export const successPayment = (req: any, res: any): Promise<object> => {
