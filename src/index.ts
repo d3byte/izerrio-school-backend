@@ -13,7 +13,8 @@ mongoose.Promise = global.Promise
 mongoose.connect(URL, () => {
     console.log(`Connected to MongoDB: ${URL}`)
     // CRON
-    // process.env.NODE_ENV !== 'test' && removeInvalidUserSubscriptions.start()
+    process.env.NODE_ENV !== 'test' && removeInvalidUserSubscriptions.start()
+    console.log('Started CRON successfully')
 })
 
 const app = express()
