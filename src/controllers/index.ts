@@ -6,12 +6,13 @@ import {  login, addSubjectToUser, getUser, getUsers, turnHelperIntoUser, turnUs
 import { createTeacher, authorizeTeacher, getTeacher, getTeachers, getStudents, removeTeacher } from './teacherController'
 import { createSubject, addTeacherToSubject, removeTeacherFromSubject, getSubjects, getSubject, removeSubject, addVideoToSubject, removeVideoFromSubject } from './subjectController'
 import { createApplication, setApplicationAsDone, removeApplication, getApplications } from './applicationController'
-import { getLink, sosatFreeKassa, successPayment, unsuccessPayment } from './infoController'
+import { getLink, sosatFreeKassa, successPayment, unsuccessPayment, sosatFreeKassa2 } from './infoController'
 
 const controllers = express()
 
 // Info
 controllers.get('/', sosatFreeKassa)
+controllers.get('/home', sosatFreeKassa2)
 controllers.get('/success-pay', successPayment)
 controllers.get('/unsuccess-pay', unsuccessPayment)
 controllers.get('/get-vk-url', getLink)
