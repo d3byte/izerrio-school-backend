@@ -25,7 +25,7 @@
     "global": "^4.3.2",
     "jsonwebtoken": "^8.3.0",
     "mocha": "^5.2.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "mongod": "^2.0.0",
     "mongoose": "^5.1.7",
     "mongoose-bcrypt": "^1.5.1",
